@@ -1,0 +1,300 @@
+<mvc:View
+    controllerName="frontend.controller.main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="eventPage"
+        title="Event Management">
+
+        <content>
+
+            <VBox
+                id="mainVBox"
+                class="sapUiMediumMargin">
+
+                <Title
+                    id="eventsTitle"
+                    text="Event Management Dashboard"
+                    level="H2"
+                    class="sapUiSmallMarginBottom"/>
+
+                <HBox
+                    id="dashboardHBox"
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="totalEventsBox"
+                        width="23%">
+
+                        <Title
+                            id="totalEventsValue"
+                            text="{dashboard>/totalEvents}"
+                            level="H2"/>
+
+                        <Text
+                            id="totalEventsLabel"
+                            text="Total Events"/>
+
+                    </VBox>
+
+                    <VBox
+                        id="openEventsBox"
+                        width="23%">
+
+                        <Title
+                            id="openEventsValue"
+                            text="{dashboard>/openEvents}"
+                            level="H2"/>
+
+                        <Text
+                            id="openEventsLabel"
+                            text="Open Events"/>
+
+                    </VBox>
+
+                    <VBox
+                        id="totalRegistrationsBox"
+                        width="23%">
+
+                        <Title
+                            id="totalRegistrationsValue"
+                            text="{dashboard>/totalRegistrations}"
+                            level="H2"/>
+
+                        <Text
+                            id="totalRegistrationsLabel"
+                            text="Total Registrations"/>
+
+                    </VBox>
+
+                    <VBox
+                        id="availableSeatsBox"
+                        width="23%">
+
+                        <Title
+                            id="availableSeatsValue"
+                            text="{dashboard>/availableSeats}"
+                            level="H2"/>
+
+                        <Text
+                            id="availableSeatsLabel"
+                            text="Available Seats"/>
+
+                    </VBox>
+
+                </HBox>
+
+                <HBox
+                    id="mainActionHBox"
+                    class="sapUiSmallMarginBottom">
+
+                    <Button
+                        id="createEventButton"
+                        text="Create Event"
+                        type="Emphasized"
+                        icon="sap-icon://add"
+                        press=".onCreateEvent"
+                        class="sapUiSmallMarginEnd"/>
+
+                    <Button
+                        id="viewRegistrationsButton"
+                        text="View Registrations"
+                        icon="sap-icon://list"
+                        press=".onViewRegistrations"/>
+
+                </HBox>
+
+                <Title
+                    id="filterTitle"
+                    text="Search and Filter Events"
+                    level="H4"
+                    class="sapUiSmallMarginBottom"/>
+
+                <HBox
+                    id="filterHBox"
+                    width="100%"
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom">
+
+                    <Input
+                        id="eventSearchInput"
+                        placeholder="Search events..."
+                        liveChange=".onFilterEvents"
+                        width="45%"
+                        class="sapUiSmallMarginEnd"/>
+
+                    <Select
+                        id="locationFilter"
+                        selectedKey=""
+                        change=".onFilterEvents"
+                        width="25%"
+                        class="sapUiSmallMarginEnd">
+
+                        <items>
+
+                            <core:Item
+                                id="allLocationsItem"
+                                key=""
+                                text="All Locations"/>
+
+                        </items>
+
+                    </Select>
+
+                    <Select
+                        id="statusFilter"
+                        selectedKey=""
+                        change=".onFilterEvents"
+                        width="25%">
+
+                        <items>
+
+                            <core:Item
+                                id="allStatusesItem"
+                                key=""
+                                text="All Statuses"/>
+
+                            <core:Item
+                                id="openStatusItem"
+                                key="Open"
+                                text="Open"/>
+
+                            <core:Item
+                                id="fullStatusItem"
+                                key="Full"
+                                text="Full"/>
+
+                            <core:Item
+                                id="closedStatusItem"
+                                key="Closed"
+                                text="Closed"/>
+
+                        </items>
+
+                    </Select>
+
+                </HBox>
+
+                <List
+                    id="eventList"
+                    headerText="Events"
+                    items="{events>/}"
+                    growing="true"
+                    noDataText="No events available">
+
+                    <CustomListItem
+                        id="eventListItem">
+
+                        <HBox
+                            id="eventHBox"
+                            width="100%"
+                            alignItems="Center"
+                            justifyContent="SpaceBetween">
+
+                            <VBox
+                                id="eventDetailsVBox"
+                                width="65%"
+                                class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom">
+
+                                <Title
+                                    id="eventItemTitle"
+                                    text="{events>title}"
+                                    level="H4"/>
+
+                                <Text
+                                    id="eventDescription"
+                                    text="{events>description}"
+                                    class="sapUiTinyMarginTop"/>
+
+                                <Text
+                                    id="eventLocation"
+                                    text="Location: {events>location}"
+                                    class="sapUiTinyMarginTop"/>
+
+                                <Text
+                                    id="eventDate"
+                                    text="Date: {events>date}"
+                                    class="sapUiTinyMarginTop"/>
+
+                                <HBox
+                                    id="eventSeatHBox"
+                                    class="sapUiTinyMarginTop">
+
+                                    <Text
+                                        id="eventCapacity"
+                                        text="Capacity: {events>capacity}"
+                                        class="sapUiSmallMarginEnd"/>
+
+                                    <Text
+                                        id="eventRegistered"
+                                        text="Registered: {events>registeredCount}"
+                                        class="sapUiSmallMarginEnd"/>
+
+                                    <Text
+                                        id="eventAvailable"
+                                        text="Available: {events>availableSeats}"/>
+
+                                </HBox>
+
+                            </VBox>
+
+                            <VBox
+                                id="eventActionVBox"
+                                width="30%"
+                                alignItems="End"
+                                class="sapUiSmallMarginEnd">
+
+                                <ObjectStatus
+                                    id="eventStatus"
+                                    text="{events>status}"
+                                    state="{= ${events>status} === 'Open' ? 'Success' : (${events>status} === 'Full' ? 'Warning' : 'Error') }"/>
+
+                                <Button
+                                    id="registerButton"
+                                    text="Register"
+                                    type="Emphasized"
+                                    icon="sap-icon://add-employee"
+                                    press=".onRegisterParticipant"
+                                    enabled="{= ${events>status} === 'Open' }"
+                                    width="160px"
+                                    class="sapUiTinyMarginTop"/>
+
+                                <Button
+                                    id="closeEventButton"
+                                    text="Close Event"
+                                    type="Reject"
+                                    icon="sap-icon://decline"
+                                    press=".onCloseEvent"
+                                    visible="{= ${events>status} === 'Open' }"
+                                    width="160px"
+                                    class="sapUiTinyMarginTop"/>
+
+                                <Button
+                                    id="reopenEventButton"
+                                    text="Reopen Event"
+                                    type="Accept"
+                                    icon="sap-icon://refresh"
+                                    press=".onReopenEvent"
+                                    visible="{= ${events>status} === 'Closed' }"
+                                    width="160px"
+                                    class="sapUiTinyMarginTop"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                    </CustomListItem>
+
+                </List>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

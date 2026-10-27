@@ -1,0 +1,230 @@
+<mvc:View
+    controllerName="frontend.controller.Registrations"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="registrationsPage"
+        title="Registrations"
+        showNavButton="true"
+        navButtonPress=".onBack">
+
+        <content>
+
+            <VBox
+                id="registrationsVBox"
+                class="sapUiMediumMargin">
+
+                <Title
+                    id="registrationsTitle"
+                    text="Registration Management"
+                    level="H2"
+                    class="sapUiSmallMarginBottom"/>
+
+                <HBox
+                    id="registrationSummaryHBox"
+                    justifyContent="SpaceBetween"
+                    width="100%"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="totalRegistrationBox"
+                        class="sapUiSmallMarginEnd">
+
+                        <Title
+                            id="totalRegistrationValue"
+                            text="{registrationSummary>/total}"
+                            level="H2"/>
+
+                        <Text
+                            id="totalRegistrationLabel"
+                            text="Total Registrations"/>
+
+                    </VBox>
+
+                    <VBox
+                        id="confirmedRegistrationBox"
+                        class="sapUiSmallMarginEnd">
+
+                        <Title
+                            id="confirmedRegistrationValue"
+                            text="{registrationSummary>/confirmed}"
+                            level="H2"/>
+
+                        <Text
+                            id="confirmedRegistrationLabel"
+                            text="Confirmed"/>
+
+                    </VBox>
+
+                    <VBox
+                        id="cancelledRegistrationBox">
+
+                        <Title
+                            id="cancelledRegistrationValue"
+                            text="{registrationSummary>/cancelled}"
+                            level="H2"/>
+
+                        <Text
+                            id="cancelledRegistrationLabel"
+                            text="Cancelled"/>
+
+                    </VBox>
+
+                </HBox>
+
+                <HBox
+                    id="registrationFilterHBox"
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom">
+
+                    <Text
+                        id="registrationFilterLabel"
+                        text="Filter by Status:"
+                        class="sapUiSmallMarginEnd"/>
+
+                    <Select
+                        id="registrationStatusFilter"
+                        selectedKey=""
+                        change=".onFilterRegistrations"
+                        width="220px">
+
+                        <items>
+
+                            <core:Item
+                                id="allRegistrationStatusItem"
+                                key=""
+                                text="All"/>
+
+                            <core:Item
+                                id="confirmedRegistrationStatusItem"
+                                key="Confirmed"
+                                text="Confirmed"/>
+
+                            <core:Item
+                                id="cancelledRegistrationStatusItem"
+                                key="Cancelled"
+                                text="Cancelled"/>
+
+                        </items>
+
+                    </Select>
+
+                </HBox>
+
+                <Table
+                    id="registrationsTable"
+                    items="{/Registrations}"
+                    growing="true"
+                    noDataText="No registrations available">
+
+                    <columns>
+
+                        <Column
+                            id="registrationIdColumn">
+
+                            <Text
+                                id="registrationIdHeader"
+                                text="Registration ID"/>
+
+                        </Column>
+
+                        <Column
+                            id="eventIdColumn">
+
+                            <Text
+                                id="eventIdHeader"
+                                text="Event ID"/>
+
+                        </Column>
+
+                        <Column
+                            id="participantIdColumn">
+
+                            <Text
+                                id="participantIdHeader"
+                                text="Participant ID"/>
+
+                        </Column>
+
+                        <Column
+                            id="registrationDateColumn">
+
+                            <Text
+                                id="registrationDateHeader"
+                                text="Date"/>
+
+                        </Column>
+
+                        <Column
+                            id="registrationStatusColumn">
+
+                            <Text
+                                id="registrationStatusHeader"
+                                text="Status"/>
+
+                        </Column>
+
+                        <Column
+                            id="registrationActionColumn">
+
+                            <Text
+                                id="registrationActionHeader"
+                                text="Action"/>
+
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem
+                            id="registrationListItem">
+
+                            <cells>
+
+                                <Text
+                                    id="registrationId"
+                                    text="{ID}"/>
+
+                                <Text
+                                    id="registrationEventId"
+                                    text="{event_ID}"/>
+
+                                <Text
+                                    id="registrationParticipantId"
+                                    text="{participant_ID}"/>
+
+                                <Text
+                                    id="registrationDate"
+                                    text="{registrationDate}"/>
+
+                                <ObjectStatus
+                                    id="registrationStatus"
+                                    text="{status}"
+                                    state="{= ${status} === 'Confirmed' ? 'Success' : 'Error' }"/>
+
+                                <Button
+                                    id="cancelRegistrationButton"
+                                    text="Cancel"
+                                    type="Reject"
+                                    icon="sap-icon://decline"
+                                    press=".onCancelRegistration"
+                                    enabled="{= ${status} === 'Confirmed' }"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
